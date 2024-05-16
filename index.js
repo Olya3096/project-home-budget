@@ -103,6 +103,7 @@ function addRevenuesItem() {
 
       const inputAmount = document.createElement("input");
       inputAmount.classList.add("inputs-edit");
+      inputAmount.type = "number";
       inputAmount.value = item.amount;
       inputAmount.required = true;
       inputAmount.min = "0.01";
@@ -219,6 +220,7 @@ function addExpensesItem() {
 
       const inputAmount = document.createElement("input");
       inputAmount.classList.add("inputs-edit");
+      inputAmount.type = "number";
       inputAmount.value = item.amount;
       inputAmount.required = true;
       inputAmount.min = "0.01";
