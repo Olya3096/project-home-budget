@@ -15,13 +15,69 @@ const expList = document.getElementById("expenses-list");
 const revTable = [];
 const expTable = [];
 
-function updateRevList() {
-  revList.innerHTML = "";
+function updateList(list) {
+  list.innerHTML = "";
 }
 
-function clearRevenuesForm() {
-  revTitleField.value = "";
-  revSumField.value = "";
+function clearForm(title, sum) {
+  title.value = "";
+  sum.value = "";
+}
+
+function createInputAmount(amount) {
+  const inputAmount = document.createElement("input");
+  inputAmount.classList.add("inputs-edit");
+  inputAmount.type = "number";
+  inputAmount.value = amount;
+  inputAmount.required = true;
+  inputAmount.min = "0.01";
+  inputAmount.step = "0.01";
+
+  return inputAmount;
+}
+
+function createInputName(name) {
+  const inputName = document.createElement("input");
+  inputName.classList.add("inputs-edit");
+  inputName.value = name;
+  inputName.required = true;
+  inputName.maxLength = 50;
+
+  return inputName;
+}
+
+function createCancelButton() {
+  const cancelBtn = document.createElement("button");
+  cancelBtn.textContent = "Cancel";
+  cancelBtn.type = "button";
+  cancelBtn.classList.add("btns-cancel-save");
+
+  return cancelBtn;
+}
+
+function createDeleteButton() {
+  const btnDelte = document.createElement("button");
+  btnDelte.classList.add("btns-delete-edit");
+  btnDelte.innerText = "Delete";
+
+  return btnDelte;
+}
+
+function createEditButton() {
+  const btnEdit = document.createElement("button");
+  btnEdit.classList.add("btns-delete-edit");
+  btnEdit.innerText = "Edit";
+
+  return btnEdit;
+}
+
+function createSaveButton() {
+  const saveBtn = document.createElement("button");
+  saveBtn.textContent = "Save";
+  saveBtn.type = "submit";
+  saveBtn.classList.add("btns-cancel-save");
+
+  return saveBtn;
 }
 
 function calculatingTotalAmount(items) {
@@ -56,7 +112,7 @@ function getBalanceAmount() {
 }
 
 function addRevenuesItem() {
-  updateRevList();
+  updateList(revList);
   revTable.forEach((item) => {
     const listItem = document.createElement("li");
     revList.appendChild(listItem);
@@ -70,14 +126,10 @@ function addRevenuesItem() {
     revItemDetails.textContent = `${item.name}: ${item.amount} $`;
     revItem.appendChild(revItemDetails);
 
-    const btnDelte = document.createElement("button");
-    btnDelte.classList.add("btns-delete-edit");
-    btnDelte.innerText = "Delete";
+    const btnDelte = createDeleteButton();
     revItem.appendChild(btnDelte);
 
-    const btnEdit = document.createElement("button");
-    btnEdit.classList.add("btns-delete-edit");
-    btnEdit.innerText = "Edit";
+    const btnEdit = createEditButton();
     revItem.appendChild(btnEdit);
 
     btnDelte.addEventListener("click", () => {
@@ -95,34 +147,18 @@ function addRevenuesItem() {
       const editForm = document.createElement("form");
       editForm.classList.add("edit-form");
 
-      const inputName = document.createElement("input");
-      inputName.classList.add("inputs-edit");
-      inputName.value = item.name;
-      inputName.required = true;
-      inputName.maxLength = 50;
+      const inputName = createInputName(item.name);
 
-      const inputAmount = document.createElement("input");
-      inputAmount.classList.add("inputs-edit");
-      inputAmount.type = "number";
-      inputAmount.value = item.amount;
-      inputAmount.required = true;
-      inputAmount.min = "0.01";
-      inputAmount.step = "0.01";
+      const inputAmount = createInputAmount(item.amount);
 
-      const cancelBtn = document.createElement("button");
-      cancelBtn.textContent = "Cancel";
-      cancelBtn.type = "button";
-      cancelBtn.classList.add("btns-cancel-save");
+      const cancelBtn = createCancelButton();
 
       cancelBtn.addEventListener("click", () => {
         revItem.style.display = "block";
         editForm.style.display = "none";
       });
 
-      const saveBtn = document.createElement("button");
-      saveBtn.textContent = "Save";
-      saveBtn.type = "submit";
-      saveBtn.classList.add("btns-cancel-save");
+      const saveBtn = createSaveButton();
 
       editForm.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -156,24 +192,15 @@ revForm.addEventListener("submit", (event) => {
     amount: revSum,
   });
 
-  updateRevList();
+  updateList(revList);
   addRevenuesItem();
-  clearRevenuesForm();
+  clearForm(revTitleField, revSumField);
   totalRev.textContent = `${calculatingTotalAmount(revTable)} $`;
   getBalanceAmount();
 });
 
-function updateExpList() {
-  expList.innerHTML = "";
-}
-
-function clearExpensesForm() {
-  expTitleField.value = "";
-  expSumField.value = "";
-}
-
 function addExpensesItem() {
-  updateExpList();
+  updateList(expList);
   expTable.forEach((item) => {
     const listItem = document.createElement("li");
     expList.appendChild(listItem);
@@ -187,14 +214,10 @@ function addExpensesItem() {
     expItemDetails.textContent = `${item.name}: ${item.amount} $`;
     expItem.appendChild(expItemDetails);
 
-    const btnDelte = document.createElement("button");
-    btnDelte.classList.add("btns-delete-edit");
-    btnDelte.innerText = "Delete";
+    const btnDelte = createDeleteButton();
     expItem.appendChild(btnDelte);
 
-    const btnEdit = document.createElement("button");
-    btnEdit.classList.add("btns-delete-edit");
-    btnEdit.innerText = "Edit";
+    const btnEdit = createEditButton();
     expItem.appendChild(btnEdit);
 
     btnDelte.addEventListener("click", () => {
@@ -212,34 +235,18 @@ function addExpensesItem() {
       const editForm = document.createElement("form");
       editForm.classList.add("edit-form");
 
-      const inputName = document.createElement("input");
-      inputName.classList.add("inputs-edit");
-      inputName.value = item.name;
-      inputName.required = true;
-      inputName.maxLength = 50;
+      const inputName = createInputName(item.name);
 
-      const inputAmount = document.createElement("input");
-      inputAmount.classList.add("inputs-edit");
-      inputAmount.type = "number";
-      inputAmount.value = item.amount;
-      inputAmount.required = true;
-      inputAmount.min = "0.01";
-      inputAmount.step = "0.01";
+      const inputAmount = createInputAmount(item.amount);
 
-      const cancelBtn = document.createElement("button");
-      cancelBtn.textContent = "Cancel";
-      cancelBtn.type = "button";
-      cancelBtn.classList.add("btns-cancel-save");
+      const cancelBtn = createCancelButton();
 
       cancelBtn.addEventListener("click", () => {
         expItem.style.display = "block";
         editForm.style.display = "none";
       });
 
-      const saveBtn = document.createElement("button");
-      saveBtn.textContent = "Save";
-      saveBtn.type = "submit";
-      saveBtn.classList.add("btns-cancel-save");
+      const saveBtn = createSaveButton();
 
       editForm.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -273,9 +280,9 @@ expForm.addEventListener("submit", (event) => {
     amount: expSum,
   });
 
-  updateExpList();
+  updateList(expList);
   addExpensesItem();
-  clearExpensesForm();
+  clearForm(expTitleField, expSumField);
   totalExp.textContent = `${calculatingTotalAmount(expTable)} $`;
   getBalanceAmount();
 });
